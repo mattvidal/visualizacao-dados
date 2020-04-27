@@ -1,17 +1,28 @@
 import matplotlib.pyplot as plt
-import numpy as np
- 
-city=['Delhi','Beijing','Washington','Tokyo','Moscow']
-Gender=['Male','Female']
-pos = np.arange(len(city))
-Happiness_Index_Male=[60,40,70,65,85]
-Happiness_Index_Female=[30,60,70,55,75]
- 
-plt.bar(pos,Happiness_Index_Male,color='blue',edgecolor='black')
-plt.bar(pos,Happiness_Index_Female,color='pink',edgecolor='black',bottom=Happiness_Index_Male)
-plt.xticks(pos, city)
-plt.xlabel('City', fontsize=16)
-plt.ylabel('Happiness_Index', fontsize=16)
-plt.title('Stacked Barchart - Happiness index across cities',fontsize=18)
-plt.legend(Gender,loc=2)
+import csv
+
+meses = []
+casosNovos = []
+casosAcumulados = []
+obitosNovos = []
+obitosAcumulados = []
+
+with open('dadosCovid.txt', encoding='utf-8') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=';')
+    for row in csv_reader:
+        meses.append(row[0]) #armazenar os meses
+        casosNovos.append(int(row[1])) #armazena os casos novos
+        casosAcumulados.append(int(row[2])) #armazena os casos acumulados
+        obitosNovos.append(int(row[3])) #armazena os óbitos novos
+        obitosAcumulados.append(int(row[4])) #armazena os óbitos acumulados
+
+plt.title("Casos COVID-19 na decorrência dos meses")
+plt.xlabel("Meses")
+plt.ylabel("Número de Casos")
+
+plt.plot(meses, casosNovos, color = 'b', label = "Casos novos")
+plt.plot(meses, casosAcumulados, color = 'g', label = "Casos acumulados")
+plt.plot(meses, obitosNovos, color = 'r', label = "Óbitos novos")
+plt.plot(meses, obitosAcumulados, color = 'c', label = "Óbtos acumulados")
+plt.legend()
 plt.show()
